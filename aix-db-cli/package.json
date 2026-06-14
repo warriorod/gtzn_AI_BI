@@ -1,0 +1,26 @@
+{
+  "name": "@apconw/aix-db-cli",
+  "version": "0.1.2",
+  "description": "CLI for Aix-DB data Q&A",
+  "type": "module",
+  "bin": {
+    "aix-db-cli": "bin/aix-db-cli.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "commander": "^12.0.0",
+    "echarts": "^6.1.0",
+    "open": "^10.0.0"
+  }
+}

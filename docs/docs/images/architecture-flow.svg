@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="userGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <linearGradient id="llmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+    <linearGradient id="ragGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe"/>
+      <stop offset="100%" style="stop-color:#00f2fe"/>
+    </linearGradient>
+    <linearGradient id="sqlGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#43e97b"/>
+      <stop offset="100%" style="stop-color:#38f9d7"/>
+    </linearGradient>
+    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fa709a"/>
+      <stop offset="100%" style="stop-color:#fee140"/>
+    </linearGradient>
+    <linearGradient id="chartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a8edea"/>
+      <stop offset="100%" style="stop-color:#fed6e3"/>
+    </linearGradient>
+
+    <!-- 流动粒子 -->
+    <circle id="particle" r="4" fill="#fff">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- 箭头标记 -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+
+    <!-- 发光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 阴影效果 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="900" height="420" fill="#f8fafc" rx="12"/>
+
+  <!-- 标题 -->
+  <text x="450" y="35" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#1e293b">数据问答核心流程</text>
+
+  <!-- ========== 节点定义 ========== -->
+
+  <!-- 1. 用户输入 -->
+  <g transform="translate(60, 180)" filter="url(#shadow)">
+    <rect width="100" height="80" rx="12" fill="url(#userGrad)"/>
+    <text x="50" y="35" text-anchor="middle" font-family="system-ui" font-size="12" fill="#fff" font-weight="500">用户</text>
+    <text x="50" y="55" text-anchor="middle" font-family="system-ui" font-size="11" fill="rgba(255,255,255,0.85)">自然语言提问</text>
+    <!-- 用户图标 -->
+    <circle cx="50" cy="18" r="8" fill="rgba(255,255,255,0.3)"/>
+  </g>
+
+  <!-- 2. LLM 意图理解 -->
+  <g transform="translate(200, 180)" filter="url(#shadow)">
+    <rect width="110" height="80" rx="12" fill="url(#llmGrad)"/>
+    <text x="55" y="30" text-anchor="middle" font-family="system-ui" font-size="12" fill="#fff" font-weight="500">LLM</text>
+    <text x="55" y="48" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.85)">意图识别</text>
+    <text x="55" y="63" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.85)">实体抽取</text>
+  </g>
+
+  <!-- 3. RAG 检索 -->
+  <g transform="translate(350, 180)" filter="url(#shadow)">
+    <rect width="120" height="80" rx="12" fill="url(#ragGrad)"/>
+    <text x="60" y="28" text-anchor="middle" font-family="system-ui" font-size="12" fill="#fff" font-weight="500">RAG 检索</text>
+    <text x="60" y="46" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.9)">Embedding + BM25</text>
+    <text x="60" y="61" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.9)">Neo4j 图谱</text>
+  </g>
+
+  <!-- 4. SQL 生成 -->
+  <g transform="translate(510, 180)" filter="url(#shadow)">
+    <rect width="110" height="80" rx="12" fill="url(#sqlGrad)"/>
+    <text x="55" y="30" text-anchor="middle" font-family="system-ui" font-size="12" fill="#fff" font-weight="500">SQL 生成</text>
+    <text x="55" y="48" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.9)">Text2SQL</text>
+    <text x="55" y="63" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.9)">语法校验</text>
+  </g>
+
+  <!-- 5. 数据库执行 -->
+  <g transform="translate(660, 180)" filter="url(#shadow)">
+    <rect width="100" height="80" rx="12" fill="url(#dbGrad)"/>
+    <text x="50" y="30" text-anchor="middle" font-family="system-ui" font-size="12" fill="#fff" font-weight="500">数据库</text>
+    <text x="50" y="48" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.9)">SQL 执行</text>
+    <text x="50" y="63" text-anchor="middle" font-family="system-ui" font-size="10" fill="rgba(255,255,255,0.9)">返回结果</text>
+    <!-- 数据库图标 -->
+    <ellipse cx="50" cy="15" rx="12" ry="5" fill="rgba(255,255,255,0.3)"/>
+  </g>
+
+  <!-- 6. 可视化输出 -->
+  <g transform="translate(800, 180)" filter="url(#shadow)">
+    <rect width="90" height="80" rx="12" fill="url(#chartGrad)"/>
+    <text x="45" y="30" text-anchor="middle" font-family="system-ui" font-size="12" fill="#475569" font-weight="500">可视化</text>
+    <text x="45" y="48" text-anchor="middle" font-family="system-ui" font-size="10" fill="#64748b">ECharts</text>
+    <text x="45" y="63" text-anchor="middle" font-family="system-ui" font-size="10" fill="#64748b">AntV</text>
+  </g>
+
+  <!-- ========== 连接线与动画 ========== -->
+
+  <!-- 连接线 1: 用户 -> LLM -->
+  <line x1="160" y1="220" x2="200" y2="220" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <circle r="5" fill="#667eea" filter="url(#glow)">
+    <animateMotion dur="2s" repeatCount="indefinite">
+      <mpath href="#path1"/>
+    </animateMotion>
+  </circle>
+  <path id="path1" d="M160,220 L200,220" fill="none" stroke="none"/>
+
+  <!-- 连接线 2: LLM -> RAG -->
+  <line x1="310" y1="220" x2="350" y2="220" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <circle r="5" fill="#f5576c" filter="url(#glow)">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="0.3s">
+      <mpath href="#path2"/>
+    </animateMotion>
+  </circle>
+  <path id="path2" d="M310,220 L350,220" fill="none" stroke="none"/>
+
+  <!-- 连接线 3: RAG -> SQL -->
+  <line x1="470" y1="220" x2="510" y2="220" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <circle r="5" fill="#00f2fe" filter="url(#glow)">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="0.6s">
+      <mpath href="#path3"/>
+    </animateMotion>
+  </circle>
+  <path id="path3" d="M470,220 L510,220" fill="none" stroke="none"/>
+
+  <!-- 连接线 4: SQL -> 数据库 -->
+  <line x1="620" y1="220" x2="660" y2="220" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <circle r="5" fill="#43e97b" filter="url(#glow)">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="0.9s">
+      <mpath href="#path4"/>
+    </animateMotion>
+  </circle>
+  <path id="path4" d="M620,220 L660,220" fill="none" stroke="none"/>
+
+  <!-- 连接线 5: 数据库 -> 可视化 -->
+  <line x1="760" y1="220" x2="800" y2="220" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <circle r="5" fill="#fa709a" filter="url(#glow)">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="1.2s">
+      <mpath href="#path5"/>
+    </animateMotion>
+  </circle>
+  <path id="path5" d="M760,220 L800,220" fill="none" stroke="none"/>
+
+  <!-- ========== 知识库模块（上方） ========== -->
+  <g transform="translate(350, 70)" filter="url(#shadow)">
+    <rect width="120" height="60" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+    <text x="60" y="25" text-anchor="middle" font-family="system-ui" font-size="11" fill="#475569" font-weight="500">知识库</text>
+    <text x="60" y="42" text-anchor="middle" font-family="system-ui" font-size="9" fill="#94a3b8">表结构 | 业务术语 | SQL示例</text>
+  </g>
+
+  <!-- 知识库连接线 -->
+  <line x1="410" y1="130" x2="410" y2="180" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle r="4" fill="#4facfe" filter="url(#glow)">
+    <animateMotion dur="1.5s" repeatCount="indefinite">
+      <mpath href="#pathKB"/>
+    </animateMotion>
+  </circle>
+  <path id="pathKB" d="M410,130 L410,180" fill="none" stroke="none"/>
+
+  <!-- ========== 数据源模块（下方） ========== -->
+  <g transform="translate(620, 310)" filter="url(#shadow)">
+    <rect width="180" height="55" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+    <text x="90" y="22" text-anchor="middle" font-family="system-ui" font-size="11" fill="#475569" font-weight="500">多数据源支持</text>
+    <text x="90" y="40" text-anchor="middle" font-family="system-ui" font-size="9" fill="#94a3b8">PostgreSQL | MySQL | ClickHouse | ...</text>
+  </g>
+
+  <!-- 数据源连接线 -->
+  <line x1="710" y1="260" x2="710" y2="310" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- ========== MCP Agent 模块（下方左侧） ========== -->
+  <g transform="translate(200, 310)" filter="url(#shadow)">
+    <rect width="140" height="55" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+    <text x="70" y="22" text-anchor="middle" font-family="system-ui" font-size="11" fill="#475569" font-weight="500">MCP 多智能体</text>
+    <text x="70" y="40" text-anchor="middle" font-family="system-ui" font-size="9" fill="#94a3b8">模型协作 | 工具调用</text>
+  </g>
+
+  <!-- MCP 连接线 -->
+  <line x1="270" y1="260" x2="270" y2="310" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- ========== 步骤标注 ========== -->
+  <g font-family="system-ui" font-size="10" fill="#94a3b8">
+    <text x="110" y="280" text-anchor="middle">1</text>
+    <text x="255" y="280" text-anchor="middle">2</text>
+    <text x="410" y="280" text-anchor="middle">3</text>
+    <text x="565" y="280" text-anchor="middle">4</text>
+    <text x="710" y="280" text-anchor="middle">5</text>
+    <text x="845" y="280" text-anchor="middle">6</text>
+  </g>
+
+  <!-- 底部说明 -->
+  <text x="450" y="400" text-anchor="middle" font-family="system-ui" font-size="11" fill="#64748b">
+    自然语言 → 意图理解 → 知识检索 → SQL生成 → 数据查询 → 可视化展示
+  </text>
+</svg>

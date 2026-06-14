@@ -1,0 +1,43 @@
+server {
+    listen 80;
+    server_name localhost;
+    client_max_body_size 100M;
+
+    location /sanic {
+        proxy_pass http://127.0.0.1:8088;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # SSE 流式响应超时配置
+        # 超时链路：前端 fetch(18min) → Nginx(18min) → 后端 TASK_TIMEOUT(15min) → LLM(10min)
+        # Nginx 应 >= 后端 TASK_TIMEOUT，确保后端有机会返回超时错误信息
+        proxy_read_timeout 1080s;       # 读取超时：18分钟
+        proxy_send_timeout 1080s;       # 发送超时：18分钟
+        proxy_connect_timeout 60s;      # 连接超时：60秒
+        proxy_buffering off;             # 关闭缓冲，支持流式传输
+        proxy_cache off;                 # 关闭缓存，确保实时流式数据
+
+        # WebSocket 和 SSE 支持
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Connection "";   # 清除默认 Connection，允许 SSE
+
+        # 重写路径以去除/sanic前缀
+        rewrite ^/sanic/(.*)$ /$1 break;
+    }
+
+    # 静态文件服务
+    location / {
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}

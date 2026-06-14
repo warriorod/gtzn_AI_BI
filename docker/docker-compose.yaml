@@ -1,0 +1,57 @@
+services:
+  aix-db:
+    image: crpi-7xkxsdc0iki61l0q.cn-hangzhou.personal.cr.aliyuncs.com/apconw/aix-db:1.2.4
+    container_name: aix-db
+    restart: unless-stopped
+    environment:
+      # 时区
+      TZ: Asia/Shanghai
+
+      # 后端服务配置
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: ${SERVER_PORT:-8088}
+      SERVER_WORKERS: ${SERVER_WORKERS:-2}
+
+      # Langfuse 配置（可选）
+      LANGFUSE_TRACING_ENABLED: ${LANGFUSE_TRACING_ENABLED:-false}
+      LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
+      LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
+      LANGFUSE_BASE_URL: ${LANGFUSE_BASE_URL:-}
+      VITE_ENABLE_PAGE_AGENT: ${VITE_ENABLE_PAGE_AGENT:-}
+      LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-65536}
+    ports:
+      # 前端（通过 nginx）
+      - "18080:80"
+      # 后端 API
+      - "18088:8088"
+      # PostgreSQL
+      - "15432:5432"
+      # MinIO API
+      - "9000:9000"
+      # MinIO Console
+      - "9001:9001"
+
+    volumes:
+      # PostgreSQL 数据目录
+      - ./volume/pg_data:/var/lib/postgresql/data
+      # MinIO 数据目录
+      - ./volume/minio/data:/data
+      # 日志目录（可选）
+      - ./volume/logs/supervisor:/var/log/supervisor
+      - ./volume/logs/nginx:/var/log/nginx
+      - ./volume/logs/aix-db:/var/log/aix-dbÅ
+      - ./volume/logs/minio:/var/log/minio
+      - ./volume/logs/postgresql:/var/log/postgresql
+      # 技能目录（挂载源代码目录，实时生效）
+      - ../agent/common/skills:/aix-db/agent/common/skills
+      - ../agent/deepagent/skills:/aix-db/agent/deepagent/skills
+      - ../agent/common/agent_workspace:/aix-db/agent/common/agent_workspace
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost/ && pg_isready -U aix_db -h localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s

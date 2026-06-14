@@ -1,0 +1,47 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.vite
+
+# testing
+/coverage
+
+# production
+dist
+cache
+dist-ssr
+
+# misc
+.DS_Store
+*.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.eslintcache
+
+# IDE
+.idea
+
+.env*
+!.env.template
+
+vite.config.ts.timestamp*
+
+# 确保源代码文件被追踪（即使在其他地方被忽略）
+# 注意：! 规则用于取消之前的忽略规则，确保这些文件类型总是被追踪
+!src/
+!src/**/*.vue
+!src/**/*.ts
+!src/**/*.tsx
+!src/**/*.js
+!src/**/*.jsx
+!src/**/*.scss
+!src/**/*.css
+!src/**/*.json
+!src/**/*.d.ts
+/.vscode/
